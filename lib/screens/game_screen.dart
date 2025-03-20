@@ -24,6 +24,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   String winner = "";
   List<int> winningPattern = [];
 
+  int xWins = 0;
+  int oWins = 0;
+
   late AnimationController _animationController;
   late Animation<Color?> _glowAnimation;
 
@@ -86,6 +89,14 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           gameOver = true;
           winner = board[pattern[0]];
           _highlightWinningTiles(pattern);
+
+          // Increase the win counter for the winner
+          if (winner == "X") {
+            xWins++;
+          } else {
+            oWins++;
+          }
+
         });
         return;
       }
@@ -101,7 +112,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   void _highlightWinningTiles(List<int> pattern) {
     for (int i in pattern) {
-      board[i] = board[i] == "X" ? "🏆X🏆" : "🏆O🏆"; // Add trophy effect to winning tiles
+      board[i] = board[i] == "X" ? "🏆X🏆" : "🏆O🏆";
     }
   }
 
@@ -135,21 +146,28 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       body: Container(
         decoration: BoxDecoration(
           color: Colors.cyan.shade800,
-          // gradient: LinearGradient(
-          //   colors: [Colors.cyan.shade700, Colors.black],
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          // ),
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Display win counts
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("X Wins: $xWins", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                  Text("O Wins: $oWins", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                ],
+              ),
+              const SizedBox(height: 10),
+
               Text(
                 gameOver ? (winner == "Draw" ? "It's a Draw!" : "$winner Wins!") : "Turn: ${isXturn ? "X" : "O"}",
                 style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(height: 10),
+
+              // Game Grid
               SizedBox(
                 width: screenSize * 0.9,
                 height: availableHeight,
@@ -176,11 +194,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                             end: Alignment.bottomRight,
                           )
                               : LinearGradient(
-                            colors: [Colors.blueGrey.shade600, Colors.black45],
+                            colors: [Colors.cyan.shade900, Colors.black54],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
                           borderRadius: BorderRadius.circular(12),
+
                           boxShadow: [
                             if (isWinningTile)
                               BoxShadow(
@@ -188,6 +207,11 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                 blurRadius: 10,
                                 spreadRadius: 2,
                               ),
+                            BoxShadow(
+                              color: Colors.white,
+                              blurRadius: 6,
+                              spreadRadius: 1,
+                            ),
                           ],
                         ),
                         child: Center(
@@ -208,7 +232,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                   },
                 ),
               ),
-              const SizedBox(height: 20),
+
               if (gameOver)
                 TweenAnimationBuilder(
                   tween: Tween<double>(begin: 1, end: gameOver ? 1.2 : 1),
@@ -219,7 +243,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                       child: ElevatedButton(
                         onPressed: _resetGame,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pinkAccent,
+                          backgroundColor: Colors.cyan.shade900,
                           shadowColor: Colors.white,
                           elevation: 10,
                         ),

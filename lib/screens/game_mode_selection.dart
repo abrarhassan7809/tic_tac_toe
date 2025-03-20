@@ -7,25 +7,29 @@ class GameModeSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.cyan.shade900,
+        centerTitle: true,
+        title: Text("Tic - Tac - Toe", style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),),
+      ),
+
       backgroundColor: Colors.cyan.shade900,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Tic - Tac - Toe", style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),),
-            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 _selectDifficulty(context);
               },
-              child: const Text("Play with Friend"),
+              child: const Text("Play with Friend", style: TextStyle(color: Colors.white, fontSize: 18),),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 _selectDifficulty(context);
               },
-              child: const Text("Play with AI"),
+              child: const Text("Play with AI", style: TextStyle(color: Colors.white, fontSize: 18),),
             ),
           ],
         ),
@@ -40,7 +44,8 @@ class GameModeSelectionScreen extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.cyan.shade900
+            color: Colors.cyan.shade900,
+            borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10))
             // gradient: LinearGradient(
             //   colors: [Colors.cyan.shade700, Colors.black],
             //   begin: Alignment.topLeft,
@@ -81,7 +86,7 @@ class GameModeSelectionScreen extends StatelessWidget {
           ),
         );
       },
-      child: Text(level),
+      child: Text(level, style: TextStyle(color: Colors.white, fontSize: 16),),
     );
   }
 }
