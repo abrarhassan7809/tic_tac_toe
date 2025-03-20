@@ -40,16 +40,17 @@ class GameModeSelectionScreen extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.black, Colors.cyan.shade700],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: Colors.cyan.shade900
+            // gradient: LinearGradient(
+            //   colors: [Colors.cyan.shade700, Colors.black],
+            //   begin: Alignment.topLeft,
+            //   end: Alignment.bottomRight,
+            // ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text("Player Level Type", style: TextStyle(fontSize: 20,)),
+              const Text("Player Level Type", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
               _difficultyButton(context, "Easy"),
               SizedBox(height: 10),

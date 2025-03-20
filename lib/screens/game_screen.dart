@@ -134,11 +134,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.black, Colors.cyan.shade700],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Colors.cyan.shade800,
+          // gradient: LinearGradient(
+          //   colors: [Colors.cyan.shade700, Colors.black],
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          // ),
         ),
         child: Center(
           child: Column(
@@ -175,7 +176,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                             end: Alignment.bottomRight,
                           )
                               : LinearGradient(
-                            colors: [Colors.blueGrey.shade800, Colors.black],
+                            colors: [Colors.blueGrey.shade600, Colors.black45],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
