@@ -12,7 +12,7 @@ class AiBot {
       case "Medium":
         return available.length > 1 ? available[available.length ~/ 2] : available[0];
       case "Hard":
-        return available[0]; // This should implement a real AI algorithm for best moves
+        return available.length > 1 ? available[available.length ~/ 2] : available[0];
       default:
         return available[0];
     }

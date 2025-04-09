@@ -20,7 +20,7 @@ class GameModeSelectionScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                _selectDifficulty(context);
+                _selectFriendMode(context);
               },
               child: const Text("Play with Friend", style: TextStyle(color: Colors.white, fontSize: 18),),
             ),
@@ -57,11 +57,11 @@ class GameModeSelectionScreen extends StatelessWidget {
             children: [
               const Text("Player Level Type", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
-              _difficultyButton(context, "Easy"),
+              _difficultyButton(context, "Easy", isMultiplayer: false),
               SizedBox(height: 10),
-              _difficultyButton(context, "Medium"),
+              _difficultyButton(context, "Medium", isMultiplayer: false),
               SizedBox(height: 10),
-              _difficultyButton(context, "Hard"),
+              _difficultyButton(context, "Hard", isMultiplayer: false),
             ],
           ),
         );
@@ -69,7 +69,37 @@ class GameModeSelectionScreen extends StatelessWidget {
     );
   }
 
-  Widget _difficultyButton(BuildContext context, String level) {
+  void _selectFriendMode(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.cyan.shade900,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("Player Level Type", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 20),
+              _difficultyButton(context, "Easy", isMultiplayer: true),
+              SizedBox(height: 10),
+              _difficultyButton(context, "Medium", isMultiplayer: true),
+              SizedBox(height: 10),
+              _difficultyButton(context, "Hard", isMultiplayer: true),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _difficultyButton(BuildContext context, String level, {required bool isMultiplayer}) {
     int gridSize = (level == "Easy") ? 3 : (level == "Medium") ? 4 : 5;
 
     return ElevatedButton(
@@ -79,7 +109,7 @@ class GameModeSelectionScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => GameScreen(
-              isMultiplayer: false,
+              isMultiplayer: isMultiplayer,
               gridSize: gridSize,
               difficulty: level,
             ),
