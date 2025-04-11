@@ -46,6 +46,19 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     ).animate(_animationController);
   }
 
+  double _getTextSize() {
+    switch (widget.difficulty.toLowerCase()) {
+      case 'easy':
+        return 36;
+      case 'medium':
+        return 28;
+      case 'hard':
+        return 22;
+      default:
+        return 30;
+    }
+  }
+
   void _handleTap(int index) {
     if (board[index] == "" && !gameOver) {
       setState(() {
@@ -88,9 +101,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         setState(() {
           gameOver = true;
           winner = board[pattern[0]];
-          _highlightWinningTiles(pattern);
+          winningPattern = pattern;
 
-          // Increase the win counter for the winner
           if (winner == "X") {
             xWins++;
           } else {
@@ -107,12 +119,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         gameOver = true;
         winner = "Draw";
       });
-    }
-  }
-
-  void _highlightWinningTiles(List<int> pattern) {
-    for (int i in pattern) {
-      board[i] = board[i] == "X" ? "🏆X🏆" : "🏆O🏆";
     }
   }
 
@@ -140,7 +146,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.isMultiplayer ? "Multiplayer Mode" : "${widget.difficulty} AI"),
+        title: Text(widget.isMultiplayer ? "${widget.difficulty} Mode" : "${widget.difficulty} AI"),
         backgroundColor: Colors.cyan.shade900,
       ),
       body: Container(
@@ -199,7 +205,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                             end: Alignment.bottomRight,
                           ),
                           borderRadius: BorderRadius.circular(12),
-
                           boxShadow: [
                             if (isWinningTile)
                               BoxShadow(
@@ -223,7 +228,14 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                             child: Text(
                               board[index],
                               key: ValueKey(board[index]),
-                              style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white),
+                              style: TextStyle(
+                                fontSize: _getTextSize(),
+                                fontWeight: FontWeight.bold,
+                                color: isWinningTile ? Colors.amberAccent : Colors.white,
+                                shadows: isWinningTile
+                                    ? [const Shadow(color: Colors.black, blurRadius: 4)]
+                                    : [],
+                              ),
                             ),
                           ),
                         ),
